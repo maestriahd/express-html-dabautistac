@@ -1,4 +1,3 @@
-// importa librerias necesarias
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -6,28 +5,23 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+
 // IMPORTA RUTAS
 // las rutas son los archivos que ejecutan la lógica en el servidor
 // cuando un cliente hace una petición. Los archivos están guardados
 // en el directorio `routes`
-var index = require('./routes/index');
-var users = require('./routes/users');
-var gatos = require('./routes/gato');
-// **** PARA AGREGAR UNA NUEVA RUTA  ****
-// descomente y cambie los valores de la siguiente línea
-//var NOMBRE_RUTA = require('./routes/ARCHIVO_RUTA');
+
+var Index = require('./routes/Index');
+var Currie = require('./routes/Currie');
+var Hirshman = require('./routes/Hirshman');
+
 
 var app = express();
 
-// Configura el motor de render de las vistas
-// las vistas deben estar en el directorio `views`
+// view engine setup
 app.set('views', path.join(__dirname, 'views'));
-// utiliza Handlebars
-// http://handlebarsjs.com/ 
 app.set('view engine', 'hbs');
 
-// configuraciones adicionales
-// por ahora no tocar!!
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -36,25 +30,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// INTEGRACION DE LAS RUTAS EN LA APLICACION
-// ejecuta el codigo de JS cuando es llamado desde una URL por el cliente
-app.use('/', index);
-app.use('/hola', users);
-app.use('/gatos', gatos);
-// **** PARA AGREGAR UNA NUEVA RUTA  ****
-// descomente y cambie los valores de la siguiente línea
-// app.use('/DONDE?', NOMBRE_RUTA);
+app.use('/', Index);
+app.use('/Currie', Currie);
+app.use('/Hirshman', Hirshman);
 
 
-// Rutinas para la detectar errores e informarlos al cliente
-// para tener más información del significado de los códigos entregados al cliente
-// https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+// catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
-
+// error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
